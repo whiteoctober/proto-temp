@@ -23,6 +23,3 @@ def render_page(self, template, variables):
 def output_page(self, html):
     # outputs the HTML from the rendered template and variables
     self.response.out.write(html)
-
-def render(self, template, variables):
-    output_page(self, render_page(self, template, variables))

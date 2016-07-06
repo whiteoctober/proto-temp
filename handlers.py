@@ -1,6 +1,10 @@
 import webapp2
 import templates as templates
 
-class MainHandler(webapp2.RequestHandler):
+class BaseHandler(webapp2.RequestHandler):
+    def render(self, template, variables):
+        templates.output_page(self, templates.render_page(self, template, variables))
+
+class MainHandler(BaseHandler):
     def get(self, args):
-        templates.render(self, 'index', {'message': 'Hello, world!'})
+        self.render('index', {'message': 'Hello, world!'})

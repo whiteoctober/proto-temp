@@ -1,5 +1,6 @@
 import handlers as handlers
 
 ROUTES = [
-    ('/(.*)', handlers.MainHandler)
+    ('/sample-form', handlers.FormHandler),
+    ('/(.*)', handlers.MainHandler),
 ]

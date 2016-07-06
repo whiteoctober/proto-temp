@@ -9,3 +9,9 @@ Scaffolding for a prototype project in AppEngine and Python
  Run `dev_appserver.py .` from the project root.
 
  Browse to the site on [http://localhost:8080/](http://localhost:8080/)
+
+## TODOS
+
+- Create BaseHandler class
+- Incorporate form methods from fracture-risk, and create example routes
+- Add Google user authentication

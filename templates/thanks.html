@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <p>Thank you for your form submission!</p>
+    <p>Here's what you entered</p>
+    <ul>
+        {% for key, value in variable_set.iteritems() %}
+            <li>{{key}}: {{value}}</li>
+        {% endfor %}
+    </ul>
+{% endblock  %}

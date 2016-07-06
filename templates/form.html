@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <form action="" method="POST">
+        {% for section in form %}
+            <h3>{{section.title}}</h3>
+            {% for field in section.fieldset %}
+                 <div class="form-group {% if field.key in errors %}has-error{% endif %}">
+                  <label for="{{field.key}}" class="control-label control-label-block">{{field.number}}. {{field.label}}:</label>
+                  {% if field.type in ["text", "number"] %}
+                    <input
+                      type="{{field.type}}"
+                      class="form-control form-control-inline-sm"
+                      name="{{field.key}}"
+                      id="{{field.key}}"
+                      {% if field.max %}max="{{field.max}}"{% endif %}
+                      {% if field.min %}min="{{field.min}}"{% endif %}
+                      value="{% if (field.value is not sameas False) %}{{field.value}}{% endif %}"
+                      required
+                    />
+                  {% endif %}
+                  {% if field.type == "radio" %}
+                    {% for option in field.options %}
+                      <div class="radio">
+                        <label>
+                          {% if field.value and field.value == option %}
+                            <input type="radio" name="{{field.key}}" id="{{field.key}}_{{option}}" value="{{option}}" checked required>
+                          {% else %}
+                            <input type="radio" name="{{field.key}}" id="{{field.key}}_{{option}}" value="{{option}}" required>
+                          {% endif %}
+                          {{option|capitalize}}
+                        </label>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                  {% if field.key in errors %}
+                    <span class="alert alert-danger alert-inline" role="alert">
+                      {% for thiserror in errors[field.key] %}
+                        {{error_conditions[field.key][thiserror]}}
+                      {% endfor %}
+                    </span>
+                  {% endif %}
+              </div>
+            {% endfor %}
+        {% endfor %}
+        <input class="btn btn-primary" type="submit" value="Submit"/>
+    </form>
+{% endblock  %}

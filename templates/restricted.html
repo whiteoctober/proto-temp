@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <p>Super-secret restricted page!</p>
+    <p>Welcome, {{ nickname }}! (<a href="{{ logout_url }}">sign out</a>)</p>
+{% endblock  %}

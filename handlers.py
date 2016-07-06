@@ -3,6 +3,8 @@ import templates
 import forms
 import config
 
+from google.appengine.api import users
+
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
         templates.output_page(self, templates.render_page(self, template, variables))
@@ -35,3 +37,14 @@ class FormHandler(BaseHandler):
         else:
             # no errors, show the thanks page
             self.render('thanks', {'variable_set': variable_set})
+
+class RestrictedAreaHandler(BaseHandler):
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            nickname = user.nickname()
+            logout_url = users.create_logout_url('/')
+            self.render('restricted', {'nickname': nickname, 'logout_url': logout_url})
+        else:
+            login_url = users.create_login_url('/restricted')
+            return self.redirect(login_url)

@@ -16,6 +16,4 @@ You can see a very simple sample route which uses the helper functions for Jinja
 
 You can see a route which uses the form library at [http://localhost:8080/sample-form](http://localhost:8080/sample-form)
 
-## TODO
-
-- Add Google user authentication
+[http://localhost:8080/restricted](http://localhost:8080/restricted) is an example of a page restricted by the [Python Users API](https://cloud.google.com/appengine/docs/python/users/).

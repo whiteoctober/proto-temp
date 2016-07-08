@@ -8,4 +8,6 @@
             <li>{{key}}: {{value}}</li>
         {% endfor %}
     </ul>
+    <p>We've put it in the database, which you can view at <a href="http://localhost:8000/datastore">http://localhost:8000/datastore</a>.</p>
+    <p>Oh, and the id for that item is {{ key.id() }}.</p>
 {% endblock  %}

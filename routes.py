@@ -5,5 +5,5 @@ ROUTES = [
     ('/restricted-inline', handlers.RestrictedAreaHandler),
     ('/restricted', handlers.RestrictedByDecoratorHandler),
     ('/restricted-admin', handlers.RestrictedByAdminDecoratorHandler),
-    ('/(.*)', handlers.MainHandler),
+    ('/', handlers.HomeHandler),
 ]

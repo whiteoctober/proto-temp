@@ -27,9 +27,9 @@ class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
         templates.output_page(self, templates.render_page(self, template, variables))
 
-class MainHandler(BaseHandler):
-    def get(self, args):
-        self.render('index', {'message': 'Hello, world!'})
+class HomeHandler(BaseHandler):
+    def get(self):
+        self.render('index', {'welcome_message': 'Hello, world!'})
 
 class FormHandler(BaseHandler):
     def get(self):

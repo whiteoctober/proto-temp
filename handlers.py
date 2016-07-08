@@ -2,6 +2,7 @@ import webapp2
 import templates
 import forms
 import config
+from models import *
 
 from google.appengine.api import users
 
@@ -53,8 +54,11 @@ class FormHandler(BaseHandler):
                 "error_conditions": config.error_conditions
             })
         else:
-            # no errors, show the thanks page
-            self.render('thanks', {'variable_set': variable_set})
+            # no errors, persist model and show the thanks page
+            variable_set['age'] = int(variable_set['age'])
+            person_object = Person(**variable_set) # unpack the dictionary object with ** to pass the contents to named parameters
+            person_key = person_object.put()
+            self.render('thanks', {'variable_set': variable_set, 'key': person_key})
 
 class RestrictedAreaHandler(BaseHandler):
     def get(self):

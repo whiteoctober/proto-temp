@@ -16,8 +16,6 @@ You can see a very simple sample route which uses the helper functions for Jinja
 
 You can see a route which uses the form library at [http://localhost:8080/sample-form](http://localhost:8080/sample-form)
 
-[http://localhost:8080/restricted](http://localhost:8080/restricted) is an example of a page restricted by the [Python Users API](https://cloud.google.com/appengine/docs/python/users/).
+[http://localhost:8080/restricted-inline](http://localhost:8080/restricted-inline) is an example of a page restricted by the [Python Users API](https://cloud.google.com/appengine/docs/python/users/).
 
-## TODO
-
-Create `@requires_login` and `@requires_admin_login` decorators to make it possible to add security to routes without additional coding.
+[http://localhost:8080/restricted](http://localhost:8080/restricted) is the same thing but accomplished using a [decorator](http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/).  Just add `@login_required` above your `get` and `set` methods to make them require authentication!

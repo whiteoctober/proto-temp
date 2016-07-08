@@ -5,6 +5,15 @@ import config
 
 from google.appengine.api import users
 
+def login_required(get_or_post_method):
+    def inner_login_checker(self, *args, **kwargs):
+        if users.get_current_user():
+            return get_or_post_method(self, *args, **kwargs)
+        else:
+            login_url = users.create_login_url(self.request.path)
+            return self.redirect(login_url)
+    return inner_login_checker
+
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
         templates.output_page(self, templates.render_page(self, template, variables))
@@ -46,5 +55,13 @@ class RestrictedAreaHandler(BaseHandler):
             logout_url = users.create_logout_url('/')
             self.render('restricted', {'nickname': nickname, 'logout_url': logout_url})
         else:
-            login_url = users.create_login_url('/restricted')
+            login_url = users.create_login_url('/restricted-inline')
             return self.redirect(login_url)
+
+class RestrictedByDecoratorHandler(BaseHandler):
+    @login_required
+    def get(self):
+        user = users.get_current_user() # we know this is defined, thanks to the decorator
+        nickname = user.nickname()
+        logout_url = users.create_logout_url('/')
+        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url})

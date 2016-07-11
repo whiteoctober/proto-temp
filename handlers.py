@@ -2,7 +2,10 @@ import webapp2
 import templates
 import forms
 import config
+import os
+import lib.cloudstorage as gcs
 from models import *
+from google.appengine.api import app_identity
 
 from google.appengine.api import users
 
@@ -126,3 +129,22 @@ class RestrictedByRoleDecoratorHandler(BaseHandler):
         nickname = user.nickname()
         logout_url = users.create_logout_url('/')
         self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'You\'ve got the role we wanted!'})
+
+class GCSHandler(BaseHandler):
+    def get_content_type(self, filename):
+        stat = gcs.stat(filename)
+        return stat.content_type
+
+    def read_file(self, filename):
+        # TODO handle 404s nicely here
+        gcs_file = gcs.open(filename)
+        the_file = gcs_file.read()
+        gcs_file.close()
+        return the_file, self.get_content_type(filename)
+
+    def get(self, fileurl):
+        bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+        filename = "/" + bucket_name + "/" + fileurl
+        the_file, content_type = self.read_file(filename)
+        self.response.headers["Content-Type"] = content_type
+        self.response.write(the_file)

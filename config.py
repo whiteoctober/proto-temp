@@ -37,3 +37,14 @@ forms = {
         }],
     }
 }
+
+ROLE_ADMINISTRATOR = "administrator"
+
+roles = {
+    "admin@example.com": [
+        ROLE_ADMINISTRATOR
+    ],
+    "sam@whiteoctober.co.uk": [
+        ROLE_ADMINISTRATOR
+    ],
+}

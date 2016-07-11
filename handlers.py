@@ -15,7 +15,7 @@ def login_required(get_or_post_method):
             return self.redirect(login_url)
     return inner_login_checker
 
-def admin_login_required(get_or_post_method):
+def app_engine_login_required(get_or_post_method):
     def inner_login_checker(self, *args, **kwargs):
         if users.get_current_user() and users.is_current_user_admin():
             return get_or_post_method(self, *args, **kwargs)
@@ -24,9 +24,41 @@ def admin_login_required(get_or_post_method):
             return self.redirect(login_url)
     return inner_login_checker
 
+def role_required(role):
+    def the_decorator(get_or_post_method):
+        def inner_login_checker(self, *args, **kwargs):
+            if users.get_current_user():
+                # check they have the right role
+                nickname = users.get_current_user().nickname()
+                if (
+                    nickname in config.roles and
+                    role in config.roles[nickname]
+                ):
+                    return get_or_post_method(self, *args, **kwargs)
+                else:
+                    self.abort(403)
+            else:
+                login_url = users.create_login_url(self.request.path)
+                return self.redirect(login_url)
+        return inner_login_checker
+    return the_decorator
+
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
         templates.output_page(self, templates.render_page(self, template, variables))
+
+    def handle_exception(self, exception, debug):
+        if isinstance(exception, webapp2.HTTPException):
+            if exception.code == 403:
+                user = users.get_current_user()
+                logout_url = None
+                if user:
+                    nickname = user.nickname
+                    logout_url = users.create_logout_url('/')
+                return self.render('errors/403', {'user': user, 'logout_url': logout_url})
+
+        # Fall back to the usual error handling
+        super(BaseHandler, self).handle_exception(exception, debug)
 
 class HomeHandler(BaseHandler):
     def get(self):
@@ -79,10 +111,18 @@ class RestrictedByDecoratorHandler(BaseHandler):
         logout_url = users.create_logout_url('/')
         self.render('restricted', {'nickname': nickname, 'logout_url': logout_url})
 
-class RestrictedByAdminDecoratorHandler(BaseHandler):
-    @admin_login_required
+class RestrictedByAppEngineDecoratorHandler(BaseHandler):
+    @app_engine_login_required
     def get(self):
         user = users.get_current_user() # we know this is defined, thanks to the decorator
         nickname = user.nickname()
         logout_url = users.create_logout_url('/')
-        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'Admins only here!'})
+        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'Only users with App Engine permissions here!'})
+
+class RestrictedByRoleDecoratorHandler(BaseHandler):
+    @role_required(config.ROLE_ADMINISTRATOR)
+    def get(self):
+        user = users.get_current_user() # we know this is defined, thanks to the decorator
+        nickname = user.nickname()
+        logout_url = users.create_logout_url('/')
+        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'You\'ve got the role we wanted!'})

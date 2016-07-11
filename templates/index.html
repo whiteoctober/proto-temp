@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <p>
+    <h2>
         {{ welcome_message }}
-    </p>
+    </h2>
+
+    <h3>Templating, forms and models</h3
 
     <p>
         This page is a very simple sample route which uses the helper functions for Jinja templating.
+        (See routing configuration in `routes.py`.)
     </p>
 
     <p>
@@ -14,16 +17,36 @@
         This page also creates and persist models (entities).
     </p>
 
+    <h3>Authentication</h3>
+
     <p>
-        <a href="/restricted-inline">/restricted-inline</a> is an example of a page restricted by the <a href="https://cloud.google.com/appengine/docs/python/users/">Python Users API</a>.
+        To help you understand how the <a href="https://cloud.google.com/appengine/docs/python/users/">Python Users API</a> works, you can see a full code example at <a href="/restricted-inline">/restricted-inline</a>.  This is an example of a page restricted by the Users API, so you'll need to provide a dummy login (in development) or log in with Google (in other environments).
     </p>
 
     <p>
-        <a href="/restricted">/restricted</a> is the same thing but accomplished using a <a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/">decorator</a>.  Just add <code>@login_required</code> above your <code>get</code> and <code>set</code> methods to make them require authentication!
+        The API is pretty simple, so the main thing that this application provides is some additional logic around authorisation using <a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/">decorators</a>:
     </p>
 
     <p>
-        Similarly, <a href="/restricted-admin">/restricted-admin</a> uses the <code>@admin_login_required</code> decorator.  Add this above your <code>get</code> and <code>set</code> methods to make them require the user to be a logged-in admin!
+        You can see an example of a route controlled by a decorator at <a href="/restricted">/restricted</a>.  You can just add <code>@login_required</code> above your <code>get</code> and <code>set</code> methods to make them require the user to login with Google!
+    </p>
+
+    <p>
+        Similarly, <a href="/restricted-app-engine">/restricted-app-engine</a> uses the <code>@app_engine_login_required</code> decorator.  This requires the logged-in user to have the Viewer, Editor, or Owner primitive role, or the App Engine App Admin curated role on the Google App Engine project in question.  (These roles aren't controlled in code, but in the settings for your App Engine project on Google Cloud Platform.  You can simulate the role in dev by ticking the admin checkbox on the dummy login page.)
+    </p>
+
+    <h3>Authorisation</h3>
+
+    <p>
+        The Python Users API only has the concept of "users with App Engine permissions for the project" and "everyone else".  To support better user-authorisation, this project includes custom code to support user roles.
+    </p>
+
+    <p>
+        You can see the configuration of roles and users in <code>config.yml</code>.  To restrict a route by role, use the <code>@requires_role</code> decorator and pass it the relevant role.
+    </p>
+
+    <p>
+        You can see an example of this at <a href="/restricted-role">/restricted-role</a>.
     </p>
 
 {% endblock  %}

@@ -24,6 +24,25 @@ def app_engine_login_required(get_or_post_method):
             return self.redirect(login_url)
     return inner_login_checker
 
+def role_required(role):
+    def the_decorator(get_or_post_method):
+        def inner_login_checker(self, *args, **kwargs):
+            if users.get_current_user():
+                # check they have the right role
+                nickname = users.get_current_user().nickname()
+                if (
+                    nickname in config.roles and
+                    role in config.roles[nickname]
+                ):
+                    return get_or_post_method(self, *args, **kwargs)
+                else:
+                    self.error(403)
+            else:
+                login_url = users.create_login_url(self.request.path)
+                return self.redirect(login_url)
+        return inner_login_checker
+    return the_decorator
+
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
         templates.output_page(self, templates.render_page(self, template, variables))
@@ -86,3 +105,11 @@ class RestrictedByAppEngineDecoratorHandler(BaseHandler):
         nickname = user.nickname()
         logout_url = users.create_logout_url('/')
         self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'Only users with App Engine permissions here!'})
+
+class RestrictedByRoleDecoratorHandler(BaseHandler):
+    @role_required(config.ROLE_ADMINISTRATOR)
+    def get(self):
+        user = users.get_current_user() # we know this is defined, thanks to the decorator
+        nickname = user.nickname()
+        logout_url = users.create_logout_url('/')
+        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'You\'ve got the role we wanted!'})

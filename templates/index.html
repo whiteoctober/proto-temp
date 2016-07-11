@@ -9,6 +9,7 @@
 
     <p>
         This page is a very simple sample route which uses the helper functions for Jinja templating.
+        (See routing configuration in `routes.py`.)
     </p>
 
     <p>
@@ -32,6 +33,20 @@
 
     <p>
         Similarly, <a href="/restricted-app-engine">/restricted-app-engine</a> uses the <code>@app_engine_login_required</code> decorator.  This requires the logged-in user to have the Viewer, Editor, or Owner primitive role, or the App Engine App Admin curated role on the Google App Engine project in question.  (These roles aren't controlled in code, but in the settings for your App Engine project on Google Cloud Platform.  You can simulate the role in dev by ticking the admin checkbox on the dummy login page.)
+    </p>
+
+    <h3>Authorisation</h3>
+
+    <p>
+        The Python Users API only has the concept of "users with App Engine permissions for the project" and "everyone else".  To support better user-authorisation, this project includes custom code to support user roles.
+    </p>
+
+    <p>
+        You can see the configuration of roles and users in <code>config.yml</code>.  To restrict a route by role, use the <code>@requires_role</code> decorator and pass it the relevant role.
+    </p>
+
+    <p>
+        You can see an example of this at <a href="/restricted-role">/restricted-role</a>.
     </p>
 
 {% endblock  %}

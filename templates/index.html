@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+    {% extends "base.html" %}
 
 {% block body %}
     <h2>
@@ -47,6 +47,23 @@
 
     <p>
         You can see an example of this at <a href="/restricted-role">/restricted-role</a>.
+    </p>
+
+    <h3>Static assets from Google Cloud Storage</h3>
+
+    <p>
+        The project supports taking static assets from Google Cloud Services.
+        You'll need to access the site with a subdomain of <code>static</code> to use this feature, so go and update your hosts file to look something like this:
+    </p>
+
+    <p>
+        <code>127.0.0.1 yoursite.dev static.yoursite.dev</code>
+    </p>
+
+    <p>
+        You can then load something out of the default GCS bucket at <a href="http://static.yoursite.dev/filename-here">http://static.yoursite.dev/filename.here</a>.
+        The configuration is broad enough that this will automatically support a URL like <code>http://static.whatever-here.appspot.com/filename.here</code>.
+        You'll need to test this in a real environment so you can upload files to the default bucket - the code doesn't include an upload feature yet, and App Engine's dev tools don't include the option for uploading into the simulated Cloud Storage.  (In dev, Cloud Storage is simulated using the Blobstore).
     </p>
 
 {% endblock  %}

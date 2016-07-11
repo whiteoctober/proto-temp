@@ -6,24 +6,24 @@
     </p>
 
     <p>
-        You can see a very simple sample route which uses the helper functions for Jinja templating at <a href="http://localhost:8080/">http://localhost:8080/</a>
+        This page is a very simple sample route which uses the helper functions for Jinja templating.
     </p>
 
     <p>
-        You can see a route which uses the form library at <a href="http://localhost:8080/sample-form">http://localhost:8080/sample-form</a>.
+        You can see a route which uses the form library at <a href="/sample-form">/sample-form</a>.
         This page also creates and persist models (entities).
     </p>
 
     <p>
-        <a href="http://localhost:8080/restricted-inline">http://localhost:8080/restricted-inline</a> is an example of a page restricted by the <a href="https://cloud.google.com/appengine/docs/python/users/">Python Users API</a>.
+        <a href="/restricted-inline">/restricted-inline</a> is an example of a page restricted by the <a href="https://cloud.google.com/appengine/docs/python/users/">Python Users API</a>.
     </p>
 
     <p>
-        <a href="http://localhost:8080/restricted">http://localhost:8080/restricted</a> is the same thing but accomplished using a <a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/">decorator</a>.  Just add <code>@login_required</code> above your <code>get</code> and <code>set</code> methods to make them require authentication!
+        <a href="/restricted">/restricted</a> is the same thing but accomplished using a <a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/">decorator</a>.  Just add <code>@login_required</code> above your <code>get</code> and <code>set</code> methods to make them require authentication!
     </p>
 
     <p>
-        Similarly, <a href="http://localhost:8080/restricted-admin">http://localhost:8080/restricted-admin</a> uses the <code>@admin_login_required</code> decorator.  Add this above your <code>get</code> and <code>set</code> methods to make them require the user to be a logged-in admin!
+        Similarly, <a href="/restricted-admin">/restricted-admin</a> uses the <code>@admin_login_required</code> decorator.  Add this above your <code>get</code> and <code>set</code> methods to make them require the user to be a logged-in admin!
     </p>
 
 {% endblock  %}

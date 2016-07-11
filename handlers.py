@@ -136,7 +136,6 @@ class GCSHandler(BaseHandler):
         return stat.content_type
 
     def read_file(self, filename):
-        # TODO handle 404s nicely here
         gcs_file = gcs.open(filename)
         the_file = gcs_file.read()
         gcs_file.close()
@@ -145,6 +144,9 @@ class GCSHandler(BaseHandler):
     def get(self, fileurl):
         bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
         filename = "/" + bucket_name + "/" + fileurl
-        the_file, content_type = self.read_file(filename)
+        try:
+            the_file, content_type = self.read_file(filename)
+        except gcs.errors.NotFoundError:
+            self.abort(404)
         self.response.headers["Content-Type"] = content_type
         self.response.write(the_file)

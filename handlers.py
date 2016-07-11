@@ -15,7 +15,7 @@ def login_required(get_or_post_method):
             return self.redirect(login_url)
     return inner_login_checker
 
-def admin_login_required(get_or_post_method):
+def app_engine_login_required(get_or_post_method):
     def inner_login_checker(self, *args, **kwargs):
         if users.get_current_user() and users.is_current_user_admin():
             return get_or_post_method(self, *args, **kwargs)
@@ -79,10 +79,10 @@ class RestrictedByDecoratorHandler(BaseHandler):
         logout_url = users.create_logout_url('/')
         self.render('restricted', {'nickname': nickname, 'logout_url': logout_url})
 
-class RestrictedByAdminDecoratorHandler(BaseHandler):
-    @admin_login_required
+class RestrictedByAppEngineDecoratorHandler(BaseHandler):
+    @app_engine_login_required
     def get(self):
         user = users.get_current_user() # we know this is defined, thanks to the decorator
         nickname = user.nickname()
         logout_url = users.create_logout_url('/')
-        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'Admins only here!'})
+        self.render('restricted', {'nickname': nickname, 'logout_url': logout_url, 'extra_message': 'Only users with App Engine permissions here!'})

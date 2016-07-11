@@ -36,7 +36,7 @@ def role_required(role):
                 ):
                     return get_or_post_method(self, *args, **kwargs)
                 else:
-                    self.error(403)
+                    self.abort(403)
             else:
                 login_url = users.create_login_url(self.request.path)
                 return self.redirect(login_url)
@@ -46,6 +46,19 @@ def role_required(role):
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
         templates.output_page(self, templates.render_page(self, template, variables))
+
+    def handle_exception(self, exception, debug):
+        if isinstance(exception, webapp2.HTTPException):
+            if exception.code == 403:
+                user = users.get_current_user()
+                logout_url = None
+                if user:
+                    nickname = user.nickname
+                    logout_url = users.create_logout_url('/')
+                return self.render('errors/403', {'user': user, 'logout_url': logout_url})
+
+        # Fall back to the usual error handling
+        super(BaseHandler, self).handle_exception(exception, debug)
 
 class HomeHandler(BaseHandler):
     def get(self):

@@ -59,12 +59,15 @@ ENVIRONMENT_PRODUCTION = "production"
 environments = {
     ENVIRONMENT_DEV: {
         "static_root": "/static",
+        "bucket_name": "app_default_bucket",
     },
     ENVIRONMENT_STAGING: {
         "static_root": "/static",
+        "bucket_name": "staging-yoursite-com.appspot.com",
     },
     ENVIRONMENT_PRODUCTION: {
         "static_root": "/static",
+        "bucket_name": "www-yoursite-com.appspot.com",
     },
 }
 
@@ -79,3 +82,6 @@ def get_environment_name():
         return ENVIRONMENT_STAGING
     else:
         return ENVIRONMENT_PRODUCTION
+
+def get_environment_setting(name):
+    return environments[get_environment_name()][name]

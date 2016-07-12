@@ -142,7 +142,7 @@ class GCSHandler(BaseHandler):
         return the_file, self.get_content_type(filename)
 
     def get(self, fileurl):
-        bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+        bucket_name = config.get_environment_setting("bucket_name")
         filename = "/" + bucket_name + "/" + fileurl
         try:
             the_file, content_type = self.read_file(filename)

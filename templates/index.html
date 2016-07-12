@@ -61,9 +61,13 @@
     </p>
 
     <p>
-        You can then load something out of the default GCS bucket at <a href="http://static.yoursite.dev/filename-here">http://static.yoursite.dev/filename.here</a>.
+        Now configure `config.py` with the names of your buckets in staging and live (search for <code>bucket_name</code>).
+    </p>
+
+    <p>
+        You can then load something out of the bucket at <a href="http://static.yoursite.dev/filename-here">http://static.yoursite.dev/filename.here</a>.
         The configuration is broad enough that this will automatically support a URL like <code>http://static.whatever-here.appspot.com/filename.here</code>.
-        You'll need to test this in a real environment so you can upload files to the default bucket - the code doesn't include an upload feature yet, and App Engine's dev tools don't include the option for uploading into the simulated Cloud Storage.  (In dev, Cloud Storage is simulated using the Blobstore).
+        You'll need to test this in a real remote App Engine environment so you can upload files to the bucket - the code doesn't include an upload feature yet, and App Engine's dev tools don't include the option for uploading into the simulated Cloud Storage.  (In dev, Cloud Storage is simulated using the Blobstore).
     </p>
 
     <p>
@@ -78,7 +82,7 @@
 
     <p>
         <code>static_root</code> is a variable available to every page you render (see <code>templates.py</code>).  It is configured in <code>config.py</code>.
-        The idea is that you can begin by leaving this configured as <code>/static</code> but in future update all your assets to render from GCS by simply updating the config value to be <code>https://static.yoursite.com</code> (and writing a script to transfer files to GCS from your codebase, of course...!)
+        The idea is that you can begin by leaving this configured as <code>/static</code> but in future update all your assets on staging/live to render from GCS by simply updating the config value to be <code>https://static.yoursite.com</code> (and writing a script to transfer files to GCS from your codebase, of course...!)
     </p>
 
 {% endblock  %}

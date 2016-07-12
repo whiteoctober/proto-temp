@@ -49,7 +49,7 @@
         You can see an example of this at <a href="/restricted-role">/restricted-role</a>.
     </p>
 
-    <h3>Static assets from Google Cloud Storage</h3>
+    <h3>Static assets and Google Cloud Storage</h3>
 
     <p>
         The project supports taking static assets from Google Cloud Services.
@@ -64,6 +64,21 @@
         You can then load something out of the default GCS bucket at <a href="http://static.yoursite.dev/filename-here">http://static.yoursite.dev/filename.here</a>.
         The configuration is broad enough that this will automatically support a URL like <code>http://static.whatever-here.appspot.com/filename.here</code>.
         You'll need to test this in a real environment so you can upload files to the default bucket - the code doesn't include an upload feature yet, and App Engine's dev tools don't include the option for uploading into the simulated Cloud Storage.  (In dev, Cloud Storage is simulated using the Blobstore).
+    </p>
+
+    <p>
+        When referencing assets which are in the codebase, put them in the <code>static</code> folder and reference them in the code like this:
+    </p>
+
+    <p>
+        <code>
+            &lt;link rel="stylesheet" href="&lbrace;&lbrace; static_root &rbrace;&rbrace;/main.css"&gt;
+        </code>
+    </p>
+
+    <p>
+        <code>static_root</code> is a variable available to every page you render (see <code>templates.py</code>).  It is configured in <code>config.py</code>.
+        The idea is that you can begin by leaving this configured as <code>/static</code> but in future update all your assets to render from GCS by simply updating the config value to be <code>https://static.yoursite.com</code> (and writing a script to transfer files to GCS from your codebase, of course...!)
     </p>
 
 {% endblock  %}

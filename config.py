@@ -1,3 +1,6 @@
+import os
+import socket
+
 error_conditions = {
     "name": {
         "not_present": "Please tell us your name",
@@ -48,3 +51,31 @@ roles = {
         ROLE_ADMINISTRATOR
     ],
 }
+
+ENVIRONMENT_DEV = "dev"
+ENVIRONMENT_STAGING = "staging"
+ENVIRONMENT_PRODUCTION = "production"
+
+environments = {
+    ENVIRONMENT_DEV: {
+        "static_root": "/static",
+    },
+    ENVIRONMENT_STAGING: {
+        "static_root": "/static",
+    },
+    ENVIRONMENT_PRODUCTION: {
+        "static_root": "/static",
+    },
+}
+
+def get_environment_name():
+    platform = os.getenv('SERVER_SOFTWARE') # e.g. Development/2.0 or Google App Engine/1.9.38
+    if ("Development" in platform):
+        return ENVIRONMENT_DEV
+
+    host_name = socket.gethostname() # e.g. localhost:8080 or something.appspot.com
+    # TODO You may want to update this specifically for your environment
+    if ("staging" in host_name):
+        return ENVIRONMENT_STAGING
+    else:
+        return ENVIRONMENT_PRODUCTION

@@ -6,6 +6,11 @@ Scaffolding for a prototype project in AppEngine and Python
 
 Install the App Engine SDK for Python: https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python
 
+To set up the libraries for Google Cloud Storage, run
+
+    pip install GoogleAppEngineCloudStorageClient -t lib
+    touch lib/__init__.py
+
 Run `dev_appserver.py .` from the project root.
 
 Browse to the site on [http://localhost:8080/](http://localhost:8080/) and you'll see a list of pages and what features they demonstrate.

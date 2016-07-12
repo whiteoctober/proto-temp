@@ -74,7 +74,8 @@ class FormHandler(BaseHandler):
         # render the form using the form fields dictionary built using the forms.build_form_fields(form, variables) function
         # variables are an empty dictionary as the form isn't filled in yet
         self.render("form", {
-            "form": forms.build_form_fields("example", {})
+            "form": forms.build_form_fields("example", {}),
+            "error_conditions": form_config.error_conditions
         })
 
     def post(self):

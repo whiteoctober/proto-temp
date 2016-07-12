@@ -20,13 +20,28 @@
                     />
                   {% endif %}
                   {% if field.type == "radio" %}
+                    {#
+                        Work out whether the radio button is a required field.
+                        We store the required value in an array to work around problems with variable scope - see the discussion at http://stackoverflow.com/a/4880398/328817
+                    #}
+                    {% set required = [] %}
+                    {% for key, conditions in error_conditions.iteritems() %}
+                        {% if key == field.key %}
+                            {% for condition, message in conditions.iteritems() %}
+                                {% if condition == "not_present" %}
+                                    {# dummy variable so we can do an append #}
+                                    {% set _ = required.append(true) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                     {% for option in field.options %}
                       <div class="radio">
                         <label>
                           {% if field.value and field.value == option %}
-                            <input type="radio" name="{{field.key}}" id="{{field.key}}_{{option}}" value="{{option}}" checked required>
+                            <input type="radio" name="{{field.key}}" id="{{field.key}}_{{option}}" value="{{option}}" checked{% if required%} required{% endif %}>
                           {% else %}
-                            <input type="radio" name="{{field.key}}" id="{{field.key}}_{{option}}" value="{{option}}" required>
+                            <input type="radio" name="{{field.key}}" id="{{field.key}}_{{option}}" value="{{option}}"{% if required%} required{% endif %}>
                           {% endif %}
                           {{option|capitalize}}
                         </label>

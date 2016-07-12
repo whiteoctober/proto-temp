@@ -14,8 +14,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 def render_page(self, template, variables):
     # add in additional "global" Jinja variables, available to every page
-    env = config.get_environment_name()
-    variables["static_root"] = config.environments[env]["static_root"]
+    variables["static_root"] = config.get_environment_setting("static_root")
     # builds the path to the template
     if not ".html" in template:
         template += ".html"

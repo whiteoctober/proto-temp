@@ -1,6 +1,7 @@
 import webapp2
 import templates
 import forms
+import form_config
 import config
 import os
 import lib.cloudstorage as gcs
@@ -86,7 +87,7 @@ class FormHandler(BaseHandler):
             self.render("form", {
                 "form": forms.build_form_fields(form_name, variable_set),
                 "errors": errors,
-                "error_conditions": config.error_conditions
+                "error_conditions": form_config.error_conditions
             })
         else:
             # no errors, persist model and show the thanks page

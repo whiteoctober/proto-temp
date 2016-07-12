@@ -1,4 +1,4 @@
-import handlers as handlers
+import handlers
 import webapp2
 from webapp2_extras import routes as extras_routes
 

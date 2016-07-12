@@ -1,14 +1,15 @@
+import os
+
+import lib.cloudstorage as gcs
 import webapp2
-import templates
+from google.appengine.api import app_identity
+from google.appengine.api import users
+
+import config
 import forms
 import form_config
-import config
-import os
-import lib.cloudstorage as gcs
+import templates
 from models import *
-from google.appengine.api import app_identity
-
-from google.appengine.api import users
 
 def login_required(get_or_post_method):
     def inner_login_checker(self, *args, **kwargs):

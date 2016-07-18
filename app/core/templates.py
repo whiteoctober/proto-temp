@@ -1,4 +1,4 @@
-import config
+import client.config as config
 import jinja2
 import os
 
@@ -6,7 +6,7 @@ import os
 
 # set the Jinja environment using autoescaping of html and using the file system loader for templates
 JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader('templates'),
+    loader=jinja2.FileSystemLoader(['client/templates', 'core/templates']),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 

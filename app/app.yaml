@@ -10,7 +10,7 @@ handlers:
   upload: favicon\.ico
 
 - url: /static
-  static_dir: static
+  static_dir: client/static
 
 - url: .*
   script: main.app

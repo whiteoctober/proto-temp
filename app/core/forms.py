@@ -1,4 +1,4 @@
-import form_config
+from client import form_config
 
 # takes the description of the form and then appends the description of the field and the value if appropriate
 def build_form_fields(form, variables):

@@ -26,6 +26,11 @@ fields = {
         "type": "radio",
         "options": ["male", "female"]
     },
+    "example-select": {
+        "label": "Example Select box",
+        "type": "select",
+        "options": {"value-stored": "What's displayed", "value-stored2": "What's displayed2"}
+    },
 }
 
 forms = {

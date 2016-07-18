@@ -4,6 +4,7 @@ import lib.cloudstorage as gcs
 import webapp2
 from google.appengine.api import app_identity
 from google.appengine.api import users
+from webapp2_extras import sessions
 
 import client.config as config
 import forms
@@ -50,7 +51,26 @@ def role_required(role):
 
 class BaseHandler(webapp2.RequestHandler):
     def render(self, template, variables={}):
+        # add in additional "global" Jinja variables, available to every page
+        variables["flash_messages"] = self.session.get_flashes()
+        variables["static_root"] = config.get_environment_setting("static_root")
         templates.output_page(self, templates.render_page(self, template, variables))
+
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        # Returns a session using the default cookie key.
+        return self.session_store.get_session()
 
     def handle_exception(self, exception, debug):
         if isinstance(exception, webapp2.HTTPException):

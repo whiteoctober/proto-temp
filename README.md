@@ -25,4 +25,7 @@ For more details, run `appcfg.py --help` or see [https://cloud.google.com/appeng
 
 ## Using it
 
-If you build your project on this code, we recommend that you rename the `app/client` folder to something project-specific, e.g. `app/project-name-here`.
+If you build your project on this code, we recommend that you...
+
+* Rename the `app/client` folder to something project-specific, e.g. `app/project-name-here`.
+* Create a unique secret key and update the one in `main.py`.

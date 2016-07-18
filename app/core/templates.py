@@ -1,4 +1,3 @@
-import client.config as config
 import jinja2
 import os
 
@@ -13,8 +12,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 # super simple template renderer
 
 def render_page(self, template, variables):
-    # add in additional "global" Jinja variables, available to every page
-    variables["static_root"] = config.get_environment_setting("static_root")
     # builds the path to the template
     if not ".html" in template:
         template += ".html"

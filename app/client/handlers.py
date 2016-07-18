@@ -42,6 +42,7 @@ class FormHandler(BaseHandler):
             variable_set['age'] = int(variable_set['age'])
             person_object = Person(**variable_set) # unpack the dictionary object with ** to pass the contents to named parameters
             person_key = person_object.put()
+            self.session.add_flash("Person created", "success")
             self.render('thanks', {'variable_set': variable_set, 'key': person_key, 'env': config.get_environment_name()})
 
 class RestrictedAreaHandler(BaseHandler):

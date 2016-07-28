@@ -32,7 +32,7 @@ class FormHandler(BaseHandler):
         if len(errors) > 0:
             # render the form using the form fields dictionary built using the forms.build_form_fields(form, variables) function
             # variables are the variable_set dictionary from above
-            self.render("form", {
+            self.render("sample_form", {
                 "form": forms.build_form_fields(form_name, variable_set),
                 "errors": errors,
                 "error_conditions": form_config.error_conditions

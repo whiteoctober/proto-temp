@@ -26,8 +26,6 @@ class FormHandler(BaseHandler):
 
     def post(self):
         form_name = "example"
-        # create an array to collect form field errors in
-        # if the length of the array is zero, output the form again
         variable_set, errors = forms.build_variable_set(self, form_name)
         if len(errors) > 0:
             # render the form using the form fields dictionary built using the forms.build_form_fields(form, variables) function

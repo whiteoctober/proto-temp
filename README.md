@@ -11,7 +11,9 @@ To set up the libraries for Google Cloud Storage, run
     pip install GoogleAppEngineCloudStorageClient -t app/lib
     touch app/lib/__init__.py
 
-Run `dev_appserver.py ./app` from the project root.
+Run `dev_appserver.py --storage_path ./.datastore ./app` from the project root.
+
+(If you don't supply `--storage_path`, the default will be used, which is usually in `/tmp`.  This is basically fine, but you may find that it's cleared when you restart your machine, hence the recommendation to use a storage path in the project folder itself.)
 
 Browse to the site on [http://localhost:8080/](http://localhost:8080/) and you'll see a list of pages and what features they demonstrate.
 

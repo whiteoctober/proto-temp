@@ -1,5 +1,9 @@
 .datastore/*
 
+# Don't ignore lib's __init__.py; we've customised that
+!app/lib/__init__.py
+app/lib
+
 # ====================================================================
 # Everything below is from the sample Python .gitignore template
 # at https://github.com/github/gitignore/blob/master/Python.gitignore

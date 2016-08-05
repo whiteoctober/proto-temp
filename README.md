@@ -9,7 +9,8 @@ Install the App Engine SDK for Python: https://cloud.google.com/appengine/downlo
 To set up the libraries for Google Cloud Storage, run
 
     pip install GoogleAppEngineCloudStorageClient -t app/lib
-    touch app/lib/__init__.py
+
+`lib/__init__.py` contains setup code which allows you to reference libraries in `lib` without needing the `lib.` prefix (and thus also allows these external libraries to reference each other).
 
 Run `dev_appserver.py --storage_path ./.datastore ./app` from the project root.
 

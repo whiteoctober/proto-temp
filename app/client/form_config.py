@@ -19,7 +19,8 @@ fields = {
         "label": "Age (in years)",
         "type": "number",
         "min": 16,
-        "max": 99
+        "max": 99,
+        "help_text": "Min 16; max 99.",
     },
     "gender": {
         "label": "Gender",

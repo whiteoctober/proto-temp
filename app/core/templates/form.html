@@ -17,8 +17,14 @@
                     {% endfor %}
                 {% endif %}
             {% endfor %}
-             <div class="form-group {% if field.key in errors %}has-error{% endif %}">
-              <label for="{{field.key}}" class="control-label control-label-block">{{field.number}}. {{field.label}}:</label>
+            <div class="form-group {% if field.key in errors %}has-error{% endif %}">
+                <label for="{{field.key}}" class="control-label control-label-block">
+                    {{field.number}}. {{field.label}}:
+                    {% if required%} <span class="text-danger">*</span>{% endif %}
+                </label>
+                {% if "help_text in field "%}
+                    <p class="help-block">{{ field["help_text"] }}</p>
+                {% endif %}
               {% if field.type in ["text", "number"] %}
                 <input
                   type="{{field.type}}"

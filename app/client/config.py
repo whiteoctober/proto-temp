@@ -7,9 +7,6 @@ roles = {
     "admin@example.com": [
         ROLE_ADMINISTRATOR
     ],
-    "sam@whiteoctober.co.uk": [
-        ROLE_ADMINISTRATOR
-    ],
 }
 
 ENVIRONMENT_DEV = "dev"

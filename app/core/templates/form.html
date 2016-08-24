@@ -12,7 +12,7 @@
                     {% for condition, message in conditions.iteritems() %}
                         {% if condition == "not_present" %}
                             {# dummy variable so we can do an append #}
-                            {% set _ = required.append(true) %}
+                            {% do required.append(true) %}
                         {% endif %}
                     {% endfor %}
                 {% endif %}

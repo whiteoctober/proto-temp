@@ -6,7 +6,7 @@ import os
 # set the Jinja environment using autoescaping of html and using the file system loader for templates
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(['client/templates', 'core/templates']),
-    extensions=['jinja2.ext.autoescape'],
+    extensions=['jinja2.ext.autoescape', 'jinja2.ext.do'],
     autoescape=True)
 
 # super simple template renderer

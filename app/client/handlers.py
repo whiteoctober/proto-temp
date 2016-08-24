@@ -24,6 +24,7 @@ class FormHandler(BaseHandler):
             "error_conditions": form_config.error_conditions
         })
 
+    @check_origin_or_referer
     def post(self):
         form_name = "example"
         variable_set, errors = forms.build_variable_set(self, form_name)

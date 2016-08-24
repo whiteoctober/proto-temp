@@ -1,6 +1,6 @@
 # WO Starter App Engine code for prototypes
 
-Scaffolding for a prototype project in AppEngine and Python
+Scaffolding for a prototype project in AppEngine and Python.
 
 ## Setup
 

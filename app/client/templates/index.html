@@ -5,16 +5,22 @@
         {{ welcome_message }}
     </h2>
 
-    <h3>Routing, templating, forms and models</h3
+    <h3>Routing and templating</h3>
 
     <p>
         This page is a very simple sample route which uses the functions in <code>templates.py</code> for Jinja templating.
         (See routing configuration in <code>routes.py</code>.)
     </p>
 
+    <h3>Forms and models</h3>
+
     <p>
         You can see a route which uses the form library at <a href="/sample-form">/sample-form</a>.
-        This page also creates and persist models (entities) and demonstrates the use of flash messages.
+        That page also creates and persist models (entities) and demonstrates the use of flash messages.
+    </p>
+
+    <p>
+        The post-handler on that route has some basic protection against Cross-Site Request Forgery (CSRF).  For details of how this works, its limitations and how to use it on your own routes, see <code>check_origin_or_referer</code> in <i>app/core/handlers.py</i>.
     </p>
 
     <h3>Authentication</h3>

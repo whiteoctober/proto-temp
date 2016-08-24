@@ -1,4 +1,5 @@
 import os
+import socket
 
 import lib.cloudstorage as gcs
 import webapp2
@@ -11,6 +12,30 @@ import forms
 import client.form_config as form_config
 import templates
 from client.models import *
+
+# This is part 1 of preventing cross-site request forgery (CSRF/XSRF).
+# Part 2 would be one of the checks mentioned at https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet#CSRF_Specific_Defense
+# Since this is just a prototype, we're going to stick with just the header check
+# but you should add additional security if using this on a longer-term project.
+#
+# Apply this to a method as a decorator (@ syntax) to use it.
+def check_origin_or_referer(get_or_post_method):
+    def inner_header_checker(self, *args, **kwargs):
+        if "origin" in self.request.headers:
+            origin = self.request.headers["origin"]
+        elif "referer" in self.request.headers:
+            origin = self.request.headers["referer"]
+        else:
+            origin = "//" # dummy origin so the split doesn't fail
+        origin = origin.split("//")[1] # take off http(s)://
+        origin = origin.split("/")[0] # take off any path parts
+
+        if origin == socket.gethostname():
+            return get_or_post_method(self, *args, **kwargs)
+        else:
+            self.session.add_flash("An error occurred while processing your request.  Please try again", "danger")
+            return self.redirect_to("home")
+    return inner_header_checker
 
 def login_required(get_or_post_method):
     def inner_login_checker(self, *args, **kwargs):

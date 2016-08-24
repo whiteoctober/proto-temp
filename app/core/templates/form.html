@@ -22,7 +22,7 @@
                     {{field.number}}. {{field.label}}:
                     {% if required%} <span class="text-danger">*</span>{% endif %}
                 </label>
-                {% if "help_text in field "%}
+                {% if "help_text" in field %}
                     <p class="help-block">{{ field["help_text"] }}</p>
                 {% endif %}
                 {% if field.type in ["text", "number"] %}
